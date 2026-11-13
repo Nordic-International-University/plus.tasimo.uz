@@ -1,0 +1,1347 @@
+/*
+ * Muharrir interfeysi (faqat /edit). Hammasi `@layer components` da: Tailwind utility'lari (pl-10, w-full …)
+ * shu klasslar ustidan yozadi — avval qatlamsiz qoidalar utility'larni bosib ketardi (EN/RU belgisi matn ustiga tushardi).
+ */
+@layer components {
+  .ed-root {
+    --ed-toolbar-h: 60px;
+    --ed-accent: #0a62b3;
+    --ed-accent-soft: rgb(10 98 179 / 0.12);
+    --ed-box: #b07a1f;
+    display: flex;
+    flex-direction: column;
+    height: 100svh;
+    background: #eef1f6;
+    color: #0f172a;
+    font-family: var(--font-sans);
+  }
+
+  .ed-toolbar {
+    position: relative;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    height: var(--ed-toolbar-h);
+    padding: 0 14px;
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .ed-body {
+    position: relative;
+    display: flex;
+    min-height: 0;
+    flex: 1;
+  }
+
+  .ed-panel {
+    display: flex;
+    flex-direction: column;
+    width: 340px;
+    flex-shrink: 0;
+    min-width: 0;
+    overflow: hidden;
+    background: #fff;
+    border-color: #e2e8f0;
+    min-height: 0;
+  }
+
+  .ed-panel-left {
+    border-right-width: 1px;
+  }
+
+  .ed-panel-right {
+    border-left-width: 1px;
+    width: 350px;
+  }
+
+  @media (max-width: 1100px) {
+    .ed-panel {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      z-index: 55;
+      box-shadow: 0 20px 60px -20px rgb(15 23 42 / 0.4);
+    }
+
+    .ed-panel-left {
+      left: 0;
+    }
+
+    .ed-panel-right {
+      right: 0;
+    }
+  }
+
+  .ed-canvas-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .ed-canvas {
+    min-height: 100%;
+    background: var(--color-paper);
+    --header-h: 84px;
+  }
+
+  .ed-canvas-preview {
+    display: flex;
+    justify-content: center;
+    padding: 18px;
+    background:
+      radial-gradient(circle at 1px 1px, rgb(15 23 42 / 0.12) 1px, transparent 0) 0 0 / 22px 22px,
+      #e7ebf2;
+  }
+
+  .ed-preview-frame {
+    height: 100%;
+    min-height: 600px;
+    max-width: 100%;
+    border: 0;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 30px 80px -30px rgb(15 23 42 / 0.45);
+    transition: width 0.35s var(--ease-out-soft);
+  }
+
+  /* ───────── Asboblar ───────── */
+  .ed-tool {
+    display: inline-grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    color: #fff;
+    transition:
+      background-color 0.15s,
+      color 0.15s;
+  }
+
+  .ed-tool:hover:not(:disabled) {
+    background: rgb(148 163 184 / 0.22);
+  }
+
+  .ed-tool:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .ed-tool-danger:hover:not(:disabled) {
+    background: #dc2626;
+    color: #fff;
+  }
+
+  /* Oq panel ichidagi kichik asbob (kulrang) */
+  .ed-tool-light {
+    color: #64748b;
+  }
+
+  .ed-tool-light:hover:not(:disabled) {
+    background: #f1f5f9;
+    color: #0f172a;
+  }
+
+  .ed-tool-light.ed-tool-danger:hover:not(:disabled) {
+    background: #fee2e2;
+    color: #b91c1c;
+  }
+
+  .ed-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #0f172a;
+    background: #f1f5f9;
+    transition: background-color 0.15s;
+  }
+
+  .ed-btn:hover:not(:disabled) {
+    background: #e2e8f0;
+  }
+
+  .ed-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .ed-btn-primary {
+    color: #fff;
+    background: #122c46;
+  }
+
+  .ed-btn-primary:hover:not(:disabled) {
+    background: #0d2236;
+  }
+
+  .ed-btn-danger {
+    color: #fff;
+    background: #dc2626;
+  }
+
+  .ed-btn-danger:hover:not(:disabled) {
+    background: #b91c1c;
+  }
+
+  /* ───────── Forma elementlari ───────── */
+  .ed-input {
+    width: 100%;
+    min-height: 40px;
+    padding: 9px 12px;
+    border-radius: 10px;
+    border: 1px solid #dbe2ea;
+    background: #fff;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: #0f172a;
+  }
+
+  .ed-input:focus {
+    outline: none;
+    border-color: var(--ed-accent);
+    box-shadow: 0 0 0 3px var(--ed-accent-soft);
+  }
+
+  .ed-input[aria-invalid='true'] {
+    border-color: #dc2626;
+  }
+
+  /* Ikki tildagi maydon: til belgisi chapda alohida ustun — matn ostiga tushmaydi */
+  .ed-lang {
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid #dbe2ea;
+    background: #fff;
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s;
+  }
+
+  .ed-lang:focus-within {
+    border-color: var(--ed-accent);
+    box-shadow: 0 0 0 3px var(--ed-accent-soft);
+  }
+
+  .ed-lang-tag {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 40px;
+    border-right: 1px solid #e2e8f0;
+    background: #f8fafc;
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #64748b;
+  }
+
+  .ed-lang-input {
+    flex: 1;
+    min-width: 0;
+    min-height: 40px;
+    padding: 9px 12px;
+    border: 0;
+    background: transparent;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: #0f172a;
+  }
+
+  .ed-lang-input:focus {
+    outline: none;
+  }
+
+  textarea.ed-lang-input {
+    min-height: 84px;
+    resize: vertical;
+  }
+
+  .ed-select {
+    height: 28px;
+    max-width: 150px;
+    padding: 0 6px;
+    border-radius: 8px;
+    border: 0;
+    background: rgb(255 255 255 / 0.14);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .ed-select option {
+    color: #0f172a;
+  }
+
+  /* ───────── Bo'lim panelidagi eskizli tanlagichlar ───────── */
+  .ed-tb-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 30px;
+    padding: 0 8px 0 5px;
+    border-radius: 8px;
+    background: rgb(255 255 255 / 0.12);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color 0.15s;
+  }
+
+  .ed-tb-btn:hover,
+  .ed-tb-btn-open {
+    background: rgb(255 255 255 / 0.22);
+  }
+
+  .ed-tb-mini {
+    display: block;
+    flex-shrink: 0;
+    width: 30px;
+    height: 19px;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.35);
+  }
+
+  .ed-tb-mini .sk {
+    width: 100%;
+    height: 100%;
+  }
+
+  .ed-tb-swatch {
+    display: block;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.45);
+  }
+
+  .ed-section-tools.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .ed-pop {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    z-index: 70;
+    padding: 12px;
+    border-radius: 14px;
+    background: #fff;
+    color: #0f172a;
+    text-align: left;
+    white-space: normal;
+    cursor: default;
+    box-shadow:
+      0 24px 60px -20px rgb(15 23 42 / 0.45),
+      0 0 0 1px rgb(15 23 42 / 0.06);
+  }
+
+  .ed-pop-up {
+    top: auto;
+    bottom: calc(100% + 10px);
+  }
+
+  .ed-pick {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 6px 6px 8px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    text-align: left;
+    transition:
+      border-color 0.15s,
+      box-shadow 0.2s;
+  }
+
+  .ed-pick:hover {
+    border-color: rgb(44 95 216 / 0.5);
+    box-shadow: 0 10px 24px -16px rgb(15 23 42 / 0.45);
+  }
+
+  .ed-pick-active,
+  .ed-pick-active:hover {
+    border-color: var(--ed-accent);
+    box-shadow: 0 0 0 2px rgb(44 95 216 / 0.22);
+  }
+
+  .ed-pick .sk-wrap {
+    display: block;
+    border-radius: 8px;
+  }
+
+  .ed-pick-check {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: grid;
+    place-items: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: var(--ed-accent);
+    color: #fff;
+    box-shadow: 0 2px 6px rgb(15 23 42 / 0.25);
+  }
+
+  .ed-pick-label {
+    padding: 0 2px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .ed-pick-note {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    padding: 0 2px;
+    font-size: 0.68rem;
+    line-height: 1.35;
+    color: #64748b;
+  }
+
+  .ed-pick-sketch {
+    display: block;
+    padding: 6px;
+    border-radius: 8px;
+    background: #f7f5f0;
+  }
+
+  .ed-pick-sketch svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    fill: #c9d3e6;
+    stroke: #94a3c4;
+  }
+
+  .ed-pick-active .ed-pick-sketch svg {
+    fill: #b9caf3;
+  }
+
+  .ed-glyph {
+    flex-shrink: 0;
+    fill: #cbd5e1;
+  }
+
+  .ed-glyph .ed-glyph-on {
+    fill: #2c5fd8;
+  }
+
+  /* ───────── Inline matn ───────── */
+  .ed-text {
+    outline: none;
+    border-radius: 4px;
+    cursor: text;
+    min-width: 1ch;
+    transition:
+      box-shadow 0.15s,
+      background-color 0.15s;
+  }
+
+  .ed-text:hover {
+    box-shadow: 0 0 0 2px rgb(44 95 216 / 0.35);
+  }
+
+  .ed-text:focus {
+    box-shadow: 0 0 0 2px var(--ed-accent);
+    background: rgb(44 95 216 / 0.06);
+  }
+
+  .ed-text[data-empty='true']::before {
+    content: attr(data-placeholder);
+    opacity: 0.4;
+    font-style: italic;
+    pointer-events: none;
+  }
+
+  /* ───────── Bo'lim ───────── */
+  .ed-section {
+    position: relative;
+  }
+
+  .ed-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border: 2px solid transparent;
+    z-index: 30;
+    transition: border-color 0.15s;
+  }
+
+  .ed-section:hover::after {
+    border-color: rgb(44 95 216 / 0.35);
+  }
+
+  .ed-section-selected::after {
+    border-color: var(--ed-accent);
+  }
+
+  /* Bo'lim asboblari: balandligi 0 bo'lgan «yopishqoq» qatlam — uzun bo'limni skroll qilganda ham ko'rinib turadi */
+  .ed-section-tools-anchor {
+    position: sticky;
+    top: 10px;
+    z-index: 45;
+    height: 0;
+  }
+
+  .ed-section-tools {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px;
+    border-radius: 12px;
+    background: rgb(15 23 42 / 0.92);
+    box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.5);
+    transform: translateX(-50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+  }
+
+  .ed-section:hover > .ed-section-tools-anchor > .ed-section-tools,
+  .ed-section-selected > .ed-section-tools-anchor > .ed-section-tools {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .ed-section-name {
+    padding: 0 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #a9c0ff;
+    white-space: nowrap;
+  }
+
+  .ed-section-hidden > :not(.ed-section-tools-anchor):not(.ed-hidden-badge) {
+    opacity: 0.38;
+    filter: grayscale(0.6);
+  }
+
+  .ed-hidden-badge {
+    position: absolute;
+    top: 58px;
+    left: 50%;
+    z-index: 44;
+    transform: translateX(-50%);
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: #f59e0b;
+    color: #1f1300;
+    font-size: 0.72rem;
+    font-weight: 800;
+  }
+
+  /* ───────── Quti ───────── */
+  .ed-box {
+    position: relative;
+    cursor: pointer;
+    outline: 2px solid transparent;
+    outline-offset: 3px;
+    transition: outline-color 0.15s;
+  }
+
+  .ed-box:hover,
+  .ed-box.ed-box-active {
+    outline-color: rgb(176 122 31 / 0.45);
+  }
+
+  .ed-box.ed-selected {
+    outline-color: var(--ed-box);
+  }
+
+  .ed-drop-before {
+    box-shadow: -4px 0 0 0 var(--ed-box);
+  }
+
+  .ed-drop-after {
+    box-shadow: 4px 0 0 0 var(--ed-box);
+  }
+
+  /*
+   * Quti asboblari — quti ichida emas, kanvas ustidagi alohida qatlamda (qutining tepasida, sig'masa — ostida):
+   * matnni yopmaydi va overflow:hidden ota elementlar uni kesib qo'ymaydi.
+   */
+  .ed-box-toolbar {
+    position: absolute;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    padding: 3px;
+    border-radius: 10px;
+    background: rgb(15 23 42 / 0.92);
+    box-shadow: 0 12px 28px -12px rgb(0 0 0 / 0.55);
+  }
+
+  .ed-box-toolbar .ed-tool {
+    width: 28px;
+    height: 28px;
+  }
+
+  .ed-box-toolbar-label {
+    padding: 0 8px 0 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #f6d58f;
+    white-space: nowrap;
+  }
+
+  .ed-add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 56px;
+    padding: 12px 18px;
+    border-radius: 1.25rem;
+    border: 2px dashed rgb(148 163 184 / 0.6);
+    color: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    opacity: 0.75;
+    transition:
+      opacity 0.15s,
+      border-color 0.15s;
+  }
+
+  .ed-add:hover {
+    opacity: 1;
+    border-color: var(--ed-accent);
+  }
+
+  /* ───────── Rasm ───────── */
+  .ed-image-overlay {
+    display: grid;
+    place-items: center;
+    z-index: 20;
+    background: rgb(15 23 42 / 0.35);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .ed-image-overlay:hover,
+  .ed-image-overlay:focus-visible {
+    opacity: 1;
+  }
+
+  .ed-image-empty {
+    border-radius: inherit;
+    color: inherit;
+    z-index: 5;
+  }
+
+  /* ───────── Modallar va xabarlar ───────── */
+  .ed-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    background: rgb(15 23 42 / 0.55);
+    backdrop-filter: blur(4px);
+  }
+
+  .ed-modal {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #fff;
+    color: #0f172a;
+    box-shadow: 0 40px 100px -30px rgb(0 0 0 / 0.55);
+  }
+
+  /* ───────── «Bo'lim qo'shish» — variant kartalari va eskizlar ───────── */
+  .ed-preset-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    text-align: left;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.25s,
+      transform 0.25s var(--ease-out-soft);
+  }
+
+  .ed-preset-card:hover,
+  .ed-preset-card:focus-visible {
+    border-color: rgb(44 95 216 / 0.55);
+    box-shadow: 0 18px 40px -24px rgb(15 23 42 / 0.4);
+    transform: translateY(-2px);
+    outline: none;
+  }
+
+  .ed-preset-add {
+    flex-shrink: 0;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+
+  .ed-preset-card:hover .ed-preset-add,
+  .ed-preset-card:focus-visible .ed-preset-add {
+    background: var(--ed-accent);
+    color: #fff;
+  }
+
+  .sk-wrap {
+    position: relative;
+    overflow: hidden;
+    border-radius: 11px;
+    aspect-ratio: 240 / 150;
+    box-shadow: inset 0 0 0 1px rgb(15 23 42 / 0.06);
+  }
+
+  .sk {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Tonlar — bo'limning standart foni (saytdagi ranglar) */
+  .sk-tone-plain,
+  .sk-tone-paper,
+  .sk-tone-sunset,
+  .sk-tone-grid {
+    --sk-ink: #0c1a3a;
+    --sk-muted: rgb(12 26 58 / 0.16);
+    --sk-accent: #2c5fd8;
+    --sk-card: #fff;
+    --sk-card-stroke: rgb(12 26 58 / 0.12);
+    --sk-img: #dde3ee;
+    --sk-img-2: #b9c4d9;
+    --sk-btn: #002060;
+    --sk-btn-2: rgb(12 26 58 / 0.25);
+    --sk-chip: #e4ebfb;
+    --sk-overlay: rgb(255 255 255 / 0);
+  }
+
+  .sk-tone-plain {
+    background: #fff;
+  }
+
+  .sk-tone-paper {
+    background: #f7f5f0;
+  }
+
+  .sk-tone-sunset {
+    background: #f1ece2;
+  }
+
+  .sk-tone-grid {
+    background-color: #fff;
+    background-image:
+      linear-gradient(rgb(12 26 58 / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(12 26 58 / 0.05) 1px, transparent 1px);
+    background-size: 10px 10px;
+  }
+
+  .sk-tone-night,
+  .sk-tone-aurora {
+    --sk-ink: #fff;
+    --sk-muted: rgb(255 255 255 / 0.26);
+    --sk-accent: #a9c0ff;
+    --sk-card: rgb(255 255 255 / 0.06);
+    --sk-card-stroke: rgb(255 255 255 / 0.16);
+    --sk-img: #23345e;
+    --sk-img-2: #364a7d;
+    --sk-btn: #fff;
+    --sk-btn-2: rgb(255 255 255 / 0.4);
+    --sk-chip: rgb(255 255 255 / 0.13);
+    --sk-overlay: rgb(10 24 56 / 0.62);
+    background: #0a1838;
+  }
+
+  .sk-tone-aurora {
+    background:
+      radial-gradient(70% 60% at 50% 0%, rgb(44 95 216 / 0.38), transparent 72%),
+      #0a1838;
+  }
+
+  .sk-ink { fill: var(--sk-ink); }
+  .sk-muted { fill: var(--sk-muted); }
+  .sk-accent { fill: var(--sk-accent); }
+  .sk-card { fill: var(--sk-card); stroke: var(--sk-card-stroke); stroke-width: 1; }
+  .sk-img { fill: var(--sk-img); }
+  .sk-img2 { fill: var(--sk-img-2); }
+  .sk-faint { opacity: 0.55; }
+  .sk-btn { fill: var(--sk-btn); }
+  .sk-btn2 { fill: none; stroke: var(--sk-btn-2); stroke-width: 1; }
+  .sk-chip { fill: var(--sk-chip); }
+  .sk-line { stroke: var(--sk-card-stroke); stroke-width: 1; }
+  .sk-dash { stroke: var(--sk-muted); stroke-width: 1; stroke-dasharray: 3 3; fill: none; }
+  .sk-overlay { fill: var(--sk-overlay); }
+  .sk-num { fill: var(--sk-accent); font-family: Georgia, 'Times New Roman', serif; font-weight: 500; }
+  .sk-quote { fill: var(--sk-accent); font-family: Georgia, serif; }
+  .sk-ring { fill: none; stroke: var(--sk-card-stroke); stroke-width: 1; }
+  .sk-plus { stroke: var(--sk-ink); stroke-width: 1.2; stroke-linecap: round; transform-box: fill-box; transform-origin: center; }
+  .sk-plus-open { transform: rotate(45deg); }
+  .sk-glyph { stroke: var(--sk-ink); stroke-width: 1.4; stroke-linecap: round; fill: none; }
+  .sk-player { fill: #0a1838; }
+  .sk-shade { fill: rgb(10 24 56 / 0.45); }
+  .sk-white { fill: #fff; }
+  .sk-play { fill: #002060; }
+  .sk-ticket { fill: #fff; }
+  .sk-tink { fill: #002060; }
+  .sk-tmuted { fill: rgb(12 26 58 / 0.22); }
+  .sk-tdash { stroke: rgb(12 26 58 / 0.25); stroke-width: 1; stroke-dasharray: 2.5 2.5; }
+  .sk-notch { fill: #0a1838; }
+
+  /* Hover: qismlar ketma-ket «yig'iladi»; ayrimlarida ma'noli harakat */
+  :is(.ed-preset-card, .ed-pick):hover .sk-part,
+  :is(.ed-preset-card, .ed-pick):focus-visible .sk-part {
+    animation: sk-rise 0.55s var(--ease-out-soft) both;
+    animation-delay: calc(var(--i, 0) * 65ms);
+  }
+
+  :is(.ed-preset-card, .ed-pick):hover .sk-seq,
+  :is(.ed-preset-card, .ed-pick):focus-visible .sk-seq {
+    animation: sk-seq 2.2s ease-in-out infinite;
+    animation-delay: calc(0.4s + var(--s, 0) * 0.35s);
+  }
+
+  .sk-slide,
+  .sk-pulse,
+  .sk-spin,
+  .sk-open {
+    transform-box: fill-box;
+  }
+
+  .sk-pulse,
+  .sk-spin {
+    transform-origin: center;
+  }
+
+  .sk-open {
+    transform-origin: top;
+  }
+
+  :is(.ed-preset-card, .ed-pick):hover .sk-slide {
+    animation: sk-slide 7s linear infinite;
+  }
+
+  :is(.ed-preset-card, .ed-pick):hover .sk-pulse {
+    animation: sk-pulse 1.4s ease-in-out infinite;
+  }
+
+  :is(.ed-preset-card, .ed-pick):hover .sk-spin {
+    animation: sk-spin 7s linear infinite;
+  }
+
+  :is(.ed-preset-card, .ed-pick):hover .sk-open {
+    animation: sk-open 2.6s ease-in-out infinite;
+  }
+
+  :is(.ed-preset-card, .ed-pick):hover .sk-plane {
+    animation: sk-plane 2.4s ease-in-out infinite;
+  }
+}
+
+@keyframes sk-rise {
+  from {
+    opacity: 0.15;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sk-seq {
+  0%,
+  100% {
+    fill: var(--sk-card);
+  }
+  30%,
+  60% {
+    fill: var(--sk-accent);
+  }
+}
+
+/* 6 ta logotip (44 birlik qadam) — lenta uzilishsiz aylanadi */
+@keyframes sk-slide {
+  to {
+    transform: translateX(-264px);
+  }
+}
+
+@keyframes sk-pulse {
+  50% {
+    transform: scale(1.14);
+  }
+}
+
+@keyframes sk-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sk-open {
+  0%,
+  100% {
+    transform: scaleY(0.05);
+    opacity: 0;
+  }
+  25%,
+  75% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes sk-plane {
+  0% {
+    transform: translateX(-9px);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(9px);
+    opacity: 0;
+  }
+}
+
+@layer components {
+
+  .ed-bg-swatch {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 52px;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    padding: 0;
+  }
+
+  .ed-toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    z-index: 110;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transform: translateX(-50%);
+    padding: 10px 12px 10px 16px;
+    border-radius: 12px;
+    background: #0f172a;
+    color: #fff;
+    font-size: 0.86rem;
+    font-weight: 600;
+    box-shadow: 0 20px 50px -20px rgb(0 0 0 / 0.6);
+  }
+
+  .ed-toast-action {
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: rgb(255 255 255 / 0.12);
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .ed-toast-action:hover {
+    background: rgb(255 255 255 / 0.22);
+  }
+
+  .ed-toast-error {
+    bottom: 76px;
+    background: #b91c1c;
+  }
+
+  /* ───────── Matnni formatlash paneli (belgilangan matn ustida) ───────── */
+  .ed-format-bar {
+    --ed-accent: #2c5fd8;
+    --ed-accent-soft: rgb(44 95 216 / 0.14);
+    position: fixed;
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px;
+    border-radius: 12px;
+    background: rgb(15 23 42 / 0.95);
+    color: #fff;
+    font-family: var(--font-sans);
+    box-shadow: 0 14px 34px -12px rgb(0 0 0 / 0.55);
+    user-select: none;
+  }
+
+  .ed-fmt-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 34px;
+    min-width: 34px;
+    padding: 0 8px;
+    border-radius: 8px;
+    color: rgb(255 255 255 / 0.85);
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+    transition:
+      background-color 0.15s,
+      color 0.15s;
+  }
+
+  .ed-fmt-btn:hover {
+    background: rgb(148 163 184 / 0.22);
+    color: #fff;
+  }
+
+  .ed-fmt-btn[aria-pressed='true'],
+  .ed-fmt-btn.is-open {
+    background: rgb(255 255 255 / 0.18);
+    color: #fff;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.16);
+  }
+
+  .ed-fmt-word {
+    padding: 0 10px;
+  }
+
+  .ed-fmt-sep {
+    width: 1px;
+    height: 20px;
+    margin: 0 4px;
+    background: rgb(255 255 255 / 0.16);
+  }
+
+  .ed-fmt-a {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .ed-fmt-a-bar {
+    display: block;
+    width: 16px;
+    height: 4px;
+    margin-top: 2px;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.3);
+  }
+
+  .ed-fmt-grad-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.3);
+  }
+
+  .ed-fmt-pop {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    width: 300px;
+    padding: 12px;
+    border-radius: 14px;
+    background: #fff;
+    color: #0f172a;
+    text-align: left;
+    cursor: default;
+    transform: translateX(-50%);
+    box-shadow:
+      0 24px 60px -20px rgb(15 23 42 / 0.45),
+      0 0 0 1px rgb(15 23 42 / 0.08);
+  }
+
+  .ed-fmt-pop-up {
+    top: auto;
+    bottom: calc(100% + 8px);
+  }
+
+  .ed-fmt-pop-title,
+  .ed-fmt-pop-sub {
+    margin-bottom: 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .ed-fmt-pop-sub {
+    margin: 14px 0 8px;
+  }
+
+  .ed-fmt-swatches {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .ed-fmt-swatch {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 0 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+  }
+
+  .ed-fmt-swatch:hover {
+    background: #f1f5f9;
+  }
+
+  .ed-fmt-swatch-label {
+    max-width: 100%;
+    overflow: hidden;
+    font-size: 0.64rem;
+    font-weight: 600;
+    color: #475569;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ed-fmt-dot {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: 999px;
+    color: #fff;
+    box-shadow: inset 0 0 0 1px rgb(15 23 42 / 0.14);
+  }
+
+  .ed-fmt-dot-light {
+    color: #0f172a;
+  }
+
+  .ed-fmt-swatch.is-active .ed-fmt-dot {
+    box-shadow:
+      inset 0 0 0 1px rgb(15 23 42 / 0.14),
+      0 0 0 2px #fff,
+      0 0 0 4px var(--ed-accent);
+  }
+
+  /* «Boshqa» — istalgan rang (rang doirasi) */
+  .ed-fmt-dot-any {
+    background: conic-gradient(#e05a47, #f2a65a, #e0b354, #4f7a3a, #1f9d7a, #2c5fd8, #7c5cff, #b4505a, #e05a47);
+    color: #fff;
+  }
+
+  .ed-fmt-dot-any svg {
+    filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.5));
+  }
+
+  /* Rangsiz: chizilgan doira */
+  .ed-fmt-dot-none {
+    width: 18px;
+    height: 18px;
+    background: linear-gradient(135deg, transparent 45%, #ef4444 45%, #ef4444 55%, transparent 55%), #fff;
+    box-shadow: inset 0 0 0 1px rgb(15 23 42 / 0.25);
+  }
+
+  /* Rang tanlagichi — ko'rinmas, butun katakni egallaydi (bosilganda brauzer oynasi ochiladi) */
+  .ed-fmt-color-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .ed-fmt-reset {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 10px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #334155;
+    transition: background-color 0.15s;
+  }
+
+  .ed-fmt-reset:hover:not(:disabled) {
+    background: #f8fafc;
+  }
+
+  .ed-fmt-reset:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .ed-fmt-grads {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .ed-fmt-grad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 4px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s;
+  }
+
+  .ed-fmt-grad:hover {
+    border-color: #cbd5e1;
+  }
+
+  .ed-fmt-grad.is-active {
+    border-color: var(--ed-accent);
+    box-shadow: 0 0 0 3px var(--ed-accent-soft);
+  }
+
+  .ed-fmt-grad-sample {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 34px;
+    border-radius: 7px;
+    background: #f8fafc;
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .ed-fmt-grad-dark {
+    background: #0a1838;
+  }
+
+  .ed-fmt-custom-grad {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ed-fmt-well {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 1px rgb(15 23 42 / 0.18);
+  }
+
+  .ed-fmt-grad-preview {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+  }
+
+  .ed-fmt-apply {
+    height: 30px;
+    padding: 0 12px;
+    border-radius: 8px;
+    background: #0f172a;
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .ed-fmt-apply:hover {
+    background: #1e293b;
+  }
+
+  .ed-rich-note {
+    font-size: 0.72rem;
+    line-height: 1.45;
+    color: #64748b;
+  }
+
+  .ed-rich-hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 11px;
+    border-radius: 12px;
+    background: #f8fafc;
+    font-size: 0.74rem;
+    line-height: 1.45;
+    color: #475569;
+  }
+
+  .ed-rich-hint-chips {
+    display: inline-flex;
+    flex-shrink: 0;
+    gap: 2px;
+    padding: 3px;
+    border-radius: 8px;
+    background: #0f172a;
+  }
+
+  .ed-rich-hint-chips > * {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    color: #fff;
+    font-family: var(--font-serif);
+    font-size: 0.8rem;
+    line-height: 1;
+  }
+
+  .ed-rich-hint-chips > .rt-grad {
+    font-weight: 700;
+  }
+}

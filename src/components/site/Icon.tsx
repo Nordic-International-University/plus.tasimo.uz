@@ -1,0 +1,65 @@
+import {
+  Award,
+  BookOpen,
+  CalendarDays,
+  Clock,
+  Compass,
+  Globe,
+  Infinity as InfinityIcon,
+  Languages,
+  Laptop,
+  Lightbulb,
+  Map,
+  Medal,
+  Mountain,
+  Pi,
+  Plane,
+  Rocket,
+  ShieldCheck,
+  Sigma,
+  Snowflake,
+  Sparkles,
+  Star,
+  Sun,
+  Target,
+  TrendingUp,
+  Trophy,
+  Users,
+  type LucideIcon,
+} from 'lucide-react';
+import type { IconName } from '@/lib/doc/types';
+
+const ICON_MAP: Record<IconName, LucideIcon> = {
+  sigma: Sigma,
+  pi: Pi,
+  infinity: InfinityIcon,
+  compass: Compass,
+  globe: Globe,
+  plane: Plane,
+  trophy: Trophy,
+  medal: Medal,
+  certificate: Award,
+  calendar: CalendarDays,
+  clock: Clock,
+  users: Users,
+  languages: Languages,
+  laptop: Laptop,
+  chart: TrendingUp,
+  star: Star,
+  map: Map,
+  lightbulb: Lightbulb,
+  shield: ShieldCheck,
+  rocket: Rocket,
+  book: BookOpen,
+  target: Target,
+  sparkles: Sparkles,
+  mountain: Mountain,
+  snowflake: Snowflake,
+  sun: Sun,
+};
+
+export function Icon({ name, size = 22, className }: { name?: IconName; size?: number; className?: string }) {
+  if (!name) return null;
+  const Component = ICON_MAP[name];
+  return Component ? <Component size={size} className={className} aria-hidden="true" strokeWidth={1.8} /> : null;
+}

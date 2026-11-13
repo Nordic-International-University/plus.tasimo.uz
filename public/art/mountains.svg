@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#71a5d4"/><stop offset="1" stop-color="#ccdff1"/></linearGradient></defs><rect width="800" height="600" fill="url(#s)"/>
+<path d="M0 420 L170 180 L300 360 L420 140 L560 340 L660 230 L800 400 V600 H0 Z" fill="#0b5ba4"/>
+<path d="M170 180 L215 245 L185 240 L160 265 L130 236 Z M420 140 L470 210 L440 205 L415 232 L385 200 Z M660 230 L690 272 L665 268 L645 285 L628 262 Z" fill="#eef5fc"/>
+<path d="M0 470 L220 330 L380 450 L560 320 L800 470 V600 H0 Z" fill="#0a62b3"/>
+<path d="M0 600 Q300 520 400 560 T800 540 V600 Z" fill="#5492cb" opacity="0.8"/>
+<g fill="#eef5fc" font-family="Georgia, 'Times New Roman', serif" font-style="italic" opacity="0.55"><text x="470" y="110" font-size="30">h = 3309 m</text><text x="60" y="110" font-size="26">∫ f(x) dx</text></g></svg>

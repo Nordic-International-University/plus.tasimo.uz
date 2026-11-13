@@ -1,0 +1,51 @@
+# Push to main → serverda build va PM2 restart (olympiads.tasimo.uz bilan bir xil sxema).
+# Build navbatdagi slotga (.next-a / .next-b) yoziladi — ishlab turgan sayt build paytida to'xtamaydi; tayyor bo'lgach
+# PM2 yangi slotga o'tadi. Sayt javob bermasa — avtomatik eski slotga qaytariladi va job xato bilan tugaydi.
+name: Deploy plus.tasimo.uz
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-plus-tasimo
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, plus]
+    steps:
+      - name: Pull, build, restart
+        run: |
+          set -euo pipefail
+          cd /var/www/tasimo-main/plus.tasimo.uz
+          git pull --ff-only origin main
+          bun install --frozen-lockfile
+
+          CURRENT=$(cat .next-slot 2>/dev/null || true)
+          if [ "$CURRENT" = ".next-a" ]; then NEXT=.next-b; else NEXT=.next-a; fi
+          echo "Faol slot: ${CURRENT:-yo'q} → build: $NEXT"
+          NEXT_DIST_DIR=$NEXT bun run build
+
+          echo "$NEXT" > .next-slot
+          (pm2 restart ecosystem.config.js --update-env || pm2 start ecosystem.config.js)
+
+          for i in $(seq 1 40); do
+            if curl -fsS -o /dev/null http://127.0.0.1:3101/en; then
+              pm2 save
+              echo "Tayyor: $NEXT (port 3101)"
+              exit 0
+            fi
+            sleep 1
+          done
+
+          echo "Sayt 40 soniyada javob bermadi" >&2
+          pm2 logs plus.tasimo.uz --lines 40 --nostream || true
+          if [ -n "$CURRENT" ] && [ -d "$CURRENT" ]; then
+            echo "Eski slotga qaytarilmoqda: $CURRENT" >&2
+            echo "$CURRENT" > .next-slot
+            pm2 restart ecosystem.config.js --update-env
+            pm2 save
+          fi
+          exit 1

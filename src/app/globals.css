@@ -1,0 +1,1096 @@
+@import 'tailwindcss';
+
+/*
+ * TASIMO Plus — Brand Book / Brand Guidelines (V1.0, 16.10.2026) bo'yicha:
+ *  - ranglar: PLUS BLUE #0A62B3, PLUS LIGHT #CEE4F8, matn/neytral fon #122C46, oq #FFFFFF (boshqa rang qo'shilmaydi);
+ *  - shrift: Finlandica Text (sarlavha 800/700, matn 400, ma'lumot 500), oddiy matnda tracking 0, sun'iy kursiv yo'q;
+ *  - grafik til: PLUS plashkasi shakli — chap-yuqori va o'ng-past burchak yumaloq; raqam, nuqta, oddiy geometriya;
+ *    bir maketda 1–2 bezak, logotip atrofi va asosiy matn orti toza; gradient faqat #0A62B3 → #CEE4F8 (pastki chapdan
+ *    yuqori o'ngga) va faqat yordamchi grafikada — matn fonida emas.
+ * Komponent klasslari `@layer components` da — Tailwind utility'lari ularni bemalol ustidan yozadi.
+ */
+
+/* ───────────────────────── Tokenlar ───────────────────────── */
+@theme {
+  --font-display: var(--font-brand), 'Segoe UI', system-ui, sans-serif;
+  --font-sans: var(--font-brand), 'Segoe UI', system-ui, sans-serif;
+
+  /* Brend ranglari (Brand Guidelines 09/24) */
+  --color-plus: #0a62b3;
+  --color-plus-light: #cee4f8;
+  --color-navy: #122c46;
+  /* Hover/bosilgan holat uchun yaqin tonlar — yangi rang emas */
+  --color-navy-2: #0d2236;
+  --color-plus-deep: #08528f;
+  --color-ink: #122c46;
+  --color-night: #122c46;
+  --color-accent: #0a62b3;
+  --color-accent-soft: #e7f1fb;
+  /* Och fonlar — PLUS LIGHT ning oq bilan aralashmasi */
+  --color-paper: #f3f8fd;
+  --color-paper-2: #e7f1fb;
+  --color-sand: #cee4f8;
+  --color-mist: #f3f6f9;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-film: cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+:root {
+  color-scheme: light;
+  --fg: var(--color-ink);
+  --fg-muted: rgb(18 44 70 / 0.7);
+  --card: #fff;
+  --card-border: rgb(18 44 70 / 0.1);
+  --line: rgb(18 44 70 / 0.1);
+  --header-h: 84px;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 8px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: #fff;
+  color: var(--fg);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgb(10 98 179 / 0.18);
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+@layer components {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .container-x {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 40px);
+  }
+
+  /* ───────────────────────── Bo'lim fonlari ───────────────────────── */
+  .sec {
+    position: relative;
+    overflow: hidden;
+    color: var(--fg);
+    padding-block: clamp(96px, 11vw, 156px);
+    isolation: isolate;
+  }
+
+  .sec-dark {
+    --fg: #fff;
+    --fg-muted: rgb(255 255 255 / 0.74);
+    --card: rgb(255 255 255 / 0.04);
+    --card-border: rgb(255 255 255 / 0.1);
+    --line: rgb(255 255 255 / 0.12);
+  }
+
+  .sec-plain {
+    background: #fff;
+  }
+
+  .sec-paper {
+    background: var(--color-paper);
+  }
+
+  /* «grid» — nuqtali to'r (brend: raqam, nuqta, oddiy geometriya), juda xira */
+  .sec-grid {
+    background-color: #fff;
+    background-image: radial-gradient(circle, rgb(10 98 179 / 0.16) 1.3px, transparent 1.6px);
+    background-size: 28px 28px;
+    background-position: center top;
+  }
+
+  /* «sunset» kaliti eski hujjatlar uchun saqlangan — PLUS LIGHT (och fon, matn #122C46: 10.9:1) */
+  .sec-sunset {
+    background: var(--color-sand);
+  }
+
+  .sec-night {
+    background: var(--color-night);
+  }
+
+  /*
+   * «aurora» — asosiy ko'k fon (PLUS BLUE, oq matn 6.16:1). Burchakdagi plashka — yordamchi grafika: brend gradienti
+   * (#0A62B3 → #CEE4F8, pastki chapdan yuqori o'ngga), matn ortida emas.
+   */
+  .sec-aurora {
+    background: var(--color-plus);
+  }
+
+  .sec-aurora::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: -8%;
+    right: -6%;
+    width: min(44vw, 560px);
+    aspect-ratio: 1.6;
+    border-radius: 40% 6% 40% 6% / 64% 10% 64% 10%;
+    background: linear-gradient(to top right, var(--color-plus), var(--color-plus-light));
+    opacity: 0.32;
+    pointer-events: none;
+  }
+
+  /* ───────────────────────── Matn ───────────────────────── */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--eyebrow, var(--color-accent));
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 1.75rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+  }
+
+  .sec-dark .eyebrow {
+    --eyebrow: var(--color-plus-light);
+  }
+
+  /* Brend ierarxiyasi: sarlavha ExtraBold 800 (qator 1.05–1.15), ikkinchi daraja Bold 700, matn Regular 400 */
+  .title-xl {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.06;
+    font-size: clamp(2.55rem, 5.4vw, 4.4rem);
+  }
+
+  .title-lg {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.005em;
+    line-height: 1.12;
+    font-size: clamp(2rem, 3.6vw, 3rem);
+  }
+
+  .lead {
+    color: var(--fg-muted);
+    font-size: clamp(1.05rem, 1.3vw, 1.18rem);
+    line-height: 1.6;
+  }
+
+  .text-muted {
+    color: var(--fg-muted);
+  }
+
+  /* Hero sarlavhasining oxirgi qatori — PLUS BLUE (brend: sun'iy kursiv yo'q) */
+  .hero-title > span:last-child:not(:first-child) {
+    color: var(--color-accent);
+  }
+
+  .sec-dark .hero-title > span:last-child:not(:first-child) {
+    color: var(--color-plus-light);
+  }
+
+  /* ───────────────────────── Tugmalar ───────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 50px;
+    padding: 0.8rem 1.45rem;
+    /* PLUS plashkasi shakli: chap-yuqori va o'ng-past yumaloq (radius ≈ 0.35 × balandlik) */
+    border-radius: 18px 5px 18px 5px;
+    font-weight: 700;
+    font-size: 0.98rem;
+    line-height: 1;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s,
+      color 0.2s,
+      transform 0.25s var(--ease-out-soft);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  .btn svg {
+    transition: transform 0.25s var(--ease-out-soft);
+  }
+
+  .btn:hover svg {
+    transform: translateX(3px);
+  }
+
+  .btn-primary {
+    color: #fff;
+    background: var(--color-plus);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-plus-deep);
+  }
+
+  .btn-secondary {
+    color: var(--fg);
+    background: transparent;
+    border-color: rgb(18 44 70 / 0.2);
+  }
+
+  .btn-secondary:hover {
+    border-color: rgb(18 44 70 / 0.4);
+    background: rgb(18 44 70 / 0.03);
+  }
+
+  .btn-ghost {
+    color: inherit;
+    min-height: 44px;
+    padding-inline: 1rem;
+  }
+
+  .btn-ghost:hover {
+    background: rgb(18 44 70 / 0.05);
+  }
+
+  .btn-light {
+    color: var(--color-plus);
+    background: #fff;
+  }
+
+  .btn-light:hover {
+    background: var(--color-paper-2);
+  }
+
+  .sec-dark .btn-primary {
+    color: var(--color-plus);
+    background: #fff;
+  }
+
+  .sec-dark .btn-primary:hover {
+    background: var(--color-paper-2);
+  }
+
+  .sec-dark .btn-secondary {
+    color: #fff;
+    border-color: rgb(255 255 255 / 0.28);
+  }
+
+  .sec-dark .btn-secondary:hover {
+    border-color: rgb(255 255 255 / 0.55);
+    background: rgb(255 255 255 / 0.06);
+  }
+
+  /* ───────────────────────── Qutilar va shakllar ───────────────────────── */
+  .card {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    transition:
+      border-color 0.3s,
+      box-shadow 0.35s var(--ease-out-soft),
+      transform 0.35s var(--ease-out-soft);
+  }
+
+  .card:hover {
+    border-color: rgb(18 44 70 / 0.2);
+    box-shadow: 0 22px 44px -32px rgb(18 44 70 / 0.32);
+    transform: translateY(-2px);
+  }
+
+  .sec-dark .card:hover {
+    border-color: rgb(255 255 255 / 0.22);
+    box-shadow: none;
+  }
+
+  .box {
+    border-radius: 1rem;
+  }
+
+  .shape-rounded {
+    border-radius: 1rem;
+  }
+
+  /* PLUS plashkasi shakli (brend grafik tili) — chap-yuqori va o'ng-past yumaloq */
+  .shape-plate {
+    border-radius: 2.25rem 0.5rem 2.25rem 0.5rem;
+  }
+
+  .shape-square {
+    border-radius: 0.5rem;
+  }
+
+  .shape-pill {
+    border-radius: 999px;
+  }
+
+  .shape-circle {
+    border-radius: 999px;
+    aspect-ratio: 1 / 1;
+  }
+
+  .shape-blob {
+    border-radius: 58% 42% 46% 54% / 52% 44% 56% 48%;
+  }
+
+  .shape-arch {
+    border-radius: 999px 999px 1.25rem 1.25rem;
+  }
+
+  .shape-hex {
+    clip-path: polygon(25% 2%, 75% 2%, 100% 50%, 75% 98%, 25% 98%, 0 50%);
+    border-radius: 0;
+  }
+
+  .shape-tilt {
+    border-radius: 1.25rem;
+    transform: rotate(-1.5deg);
+  }
+
+  .shape-tilt:hover {
+    transform: rotate(0deg) translateY(-2px);
+  }
+
+  .shape-ticket {
+    border-radius: 1rem;
+    -webkit-mask:
+      radial-gradient(circle at 0 50%, transparent 12px, #000 12.5px) left / 51% 100% no-repeat,
+      radial-gradient(circle at 100% 50%, transparent 12px, #000 12.5px) right / 51% 100% no-repeat;
+    mask:
+      radial-gradient(circle at 0 50%, transparent 12px, #000 12.5px) left / 51% 100% no-repeat,
+      radial-gradient(circle at 100% 50%, transparent 12px, #000 12.5px) right / 51% 100% no-repeat;
+  }
+
+  /* Aksentlar: teal = PLUS BLUE / PLUS LIGHT, sky — ochroq ko'k, violet — navy (#122C46); qolganlari admin tanlovi */
+  .accent-teal { --accent: #0a62b3; --accent-soft: #cee4f8; --accent-ink: #0a62b3; }
+  .accent-violet { --accent: #122c46; --accent-soft: #e3e9ef; --accent-ink: #122c46; }
+  .accent-amber { --accent: #a8792b; --accent-soft: #f6f0e3; --accent-ink: #7a5414; }
+  .accent-coral { --accent: #b4505a; --accent-soft: #f8eded; --accent-ink: #8a2f39; }
+  .accent-sky { --accent: #3a86d0; --accent-soft: #e7f1fb; --accent-ink: #1f64a8; }
+  .accent-lime { --accent: #4f7a3a; --accent-soft: #eef4ea; --accent-ink: #36592a; }
+
+  /* Ikonka — kichik PLUS plashkasi */
+  .icon-chip {
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 15px 4px 15px 4px;
+    color: var(--accent-ink, var(--color-plus));
+    background: var(--accent-soft, var(--color-plus-light));
+  }
+
+  .sec-dark .icon-chip {
+    color: var(--color-plus-light);
+    background: rgb(255 255 255 / 0.1);
+  }
+
+  /* Yupqa ajratgich chiziq */
+  .rule {
+    border-color: var(--line);
+  }
+
+  /* ───────────────────────── Logotip ───────────────────────── */
+  .tp-logo {
+    position: relative;
+    display: block;
+    height: 100%;
+    width: auto;
+    contain: layout style;
+    --logo-ink: var(--color-navy);
+    --logo-accent: var(--color-plus);
+  }
+
+  .tp-logo-light {
+    --logo-ink: #fff;
+    --logo-accent: var(--color-plus-light);
+  }
+
+  .tp-logo .tl-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .tp-logo .tl-emblem,
+  .tp-logo .tl-letter {
+    fill: var(--logo-ink);
+    transition: fill 0.4s;
+  }
+
+  .tp-logo .tl-plus {
+    fill: var(--logo-accent);
+  }
+
+  .tp-logo .tl-ring,
+  .tp-logo .tl-wing,
+  .tp-logo .tl-head {
+    transform-box: fill-box;
+  }
+
+  .tp-logo .tl-ring {
+    transform-origin: 50% 50%;
+  }
+
+  .tp-logo .tl-wing {
+    transform-origin: 0% 100%;
+  }
+
+  .tp-logo .tl-head {
+    transform-origin: 100% 100%;
+  }
+
+  /* ───────────────────────── Logotiplar (ArtLogo — 5 variant) ───────────────────────── */
+  .lg {
+    position: relative;
+    display: block;
+    height: 100%;
+    width: auto;
+    contain: layout style;
+    --lg-ink: #0a62b3;
+    --lg-soft: #cee4f8;
+    --lg-mid: #6ca6e3;
+    --lg-white: #fff;
+  }
+
+  .lg > svg {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .lg .lg-ink {
+    fill: var(--lg-ink);
+    transition: fill 0.4s;
+  }
+
+  .lg .lg-soft {
+    fill: var(--lg-soft);
+  }
+
+  .lg .lg-mid {
+    fill: var(--lg-mid);
+  }
+
+  .lg .lg-white {
+    fill: var(--lg-white);
+  }
+
+  .lg .lg-g {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  /* Aylanish markazi viewBox koordinatasida berilgan guruhlar (kompas ignasi, chodir) */
+  .lg .lg-o {
+    transform-box: view-box;
+    transform-origin: var(--ox) var(--oy);
+  }
+
+  .lg .lg-wing {
+    transform-origin: 0% 100%;
+  }
+
+  .lg .lg-head {
+    transform-origin: 100% 100%;
+  }
+
+  .lg .lg-tent:not(.lg-o) {
+    transform-origin: 50% 100%;
+  }
+
+  /* To'q fon (footer, to'q bo'lim ustidagi sarlavha): ko'k qismlar oq, PLUS yorlig'i o'z ranglarida */
+  .lg[data-tone='light'] {
+    --lg-ink: #fff;
+  }
+
+  .lg[data-tone='light'] .lg-badge {
+    --lg-ink: #0a62b3;
+  }
+
+  /* Rasmiy (oq) logotip — och fonda to'q plashka ichida; plashka shakli brenddagidek (chap-yuqori, o'ng-past yumaloq) */
+  .lg-dark .lg-backdrop {
+    position: absolute;
+    inset: -16% -5%;
+    background: var(--color-night);
+    border-radius: 16px 4px 16px 4px;
+    clip-path: inset(0 0 0 0 round 16px 4px 16px 4px);
+    transition:
+      clip-path 0.5s var(--ease-film),
+      opacity 0.3s;
+  }
+
+  .lg-dark[data-tone='light'] .lg-backdrop {
+    opacity: 0;
+  }
+
+  /* ───────────────────────── Sarlavha (header) ───────────────────────── */
+  .site-header {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 40;
+    padding: 10px clamp(8px, 2vw, 16px);
+    pointer-events: none;
+    --hdr-fg: var(--color-ink);
+  }
+
+  .site-header-static {
+    position: relative;
+  }
+
+  .site-header[data-tone='light'] {
+    --hdr-fg: #fff;
+  }
+
+  .site-header .hdr-bar {
+    pointer-events: auto;
+    max-width: 1240px;
+    margin-inline: auto;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-inline: 1rem 0.75rem;
+    border-radius: 18px;
+    color: var(--hdr-fg);
+    transition:
+      background-color 0.5s var(--ease-film),
+      box-shadow 0.5s var(--ease-film),
+      height 0.5s var(--ease-film),
+      color 0.4s;
+  }
+
+  .site-header[data-scrolled='true'] .hdr-bar {
+    --hdr-fg: var(--color-ink);
+    height: 56px;
+    background: rgb(255 255 255 / 0.9);
+    /* prefiksli avval, prefikssiz oxirida — prod CSS juftlikdan faqat oxirgisini qoldiradi */
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    backdrop-filter: blur(16px) saturate(1.4);
+    box-shadow:
+      0 12px 30px -14px rgb(18 44 70 / 0.2),
+      0 0 0 1px rgb(18 44 70 / 0.06);
+  }
+
+  .site-header[data-tone='light']:not([data-scrolled='true']) .tp-logo {
+    --logo-ink: #fff;
+    --logo-accent: var(--color-plus-light);
+  }
+
+  .site-header[data-tone='light']:not([data-scrolled='true']) .lg {
+    --lg-ink: #fff;
+  }
+
+  .site-header[data-tone='light']:not([data-scrolled='true']) .lg .lg-badge {
+    --lg-ink: #0a62b3;
+  }
+
+  .site-header[data-tone='light']:not([data-scrolled='true']) .lg-dark .lg-backdrop {
+    opacity: 0;
+  }
+
+  /* Logotip balandligi: tepada katta (brend: logotip ko'rinib tursin), skrollda yig'ilib kichrayadi */
+  .hdr-logo {
+    display: block;
+    flex-shrink: 0;
+    height: 40px;
+    transition: height 0.5s var(--ease-film);
+  }
+
+  .hdr-logo[data-logo='official'] {
+    height: 36px;
+  }
+
+  @media (min-width: 640px) {
+    .hdr-logo {
+      height: 48px;
+    }
+
+    .hdr-logo[data-logo='official'] {
+      height: 44px;
+    }
+  }
+
+  .site-header[data-scrolled='true'] .hdr-logo {
+    height: 34px;
+  }
+
+  .site-header[data-scrolled='true'] .hdr-logo[data-logo='official'] {
+    height: 30px;
+  }
+
+  .site-header-static .hdr-logo {
+    height: 44px;
+  }
+
+  .hdr-link {
+    position: relative;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--hdr-fg);
+    opacity: 0.78;
+    transition: opacity 0.2s;
+  }
+
+  .hdr-link:hover {
+    opacity: 1;
+  }
+
+  .hdr-link::after {
+    content: '';
+    position: absolute;
+    left: 0.8rem;
+    right: 0.8rem;
+    bottom: 0.3rem;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s var(--ease-out-soft);
+  }
+
+  .hdr-link:hover::after {
+    transform: scaleX(1);
+  }
+
+  .site-header .btn-secondary {
+    color: var(--hdr-fg);
+    border-color: color-mix(in srgb, var(--hdr-fg) 26%, transparent);
+  }
+
+  .site-header[data-tone='light']:not([data-scrolled='true']) .btn-primary {
+    color: var(--color-navy);
+    background: #fff;
+  }
+
+  /* ───────────────────────── FAQ — <details> (JS'siz) ───────────────────────── */
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item[open] .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-item .faq-answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s var(--ease-out-soft);
+  }
+
+  .faq-item[open] .faq-answer {
+    grid-template-rows: 1fr;
+  }
+
+  /* ───────────────────────── Gorizontal karusel (scroll-snap) ───────────────────────── */
+  .snap-row {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(260px, 34%);
+    gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 0.5rem;
+  }
+
+  .snap-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .snap-row > * {
+    scroll-snap-align: start;
+  }
+
+  @media (max-width: 640px) {
+    .snap-row {
+      grid-auto-columns: 82%;
+    }
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--marquee-dur, 40s) linear infinite;
+  }
+
+  /*
+   * Formatli matn (muharrirda belgilab qo'yiladi — lib/doc/rich.ts): rang inline style bilan, gradient — shu klass.
+   * Prod CSS juftlikdan oxirgisini qoldiradi — prefiksli birinchi, prefikssiz oxirida.
+   */
+  .rt-grad {
+    background-image: linear-gradient(90deg, var(--g1), var(--g2));
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .rt-grad u {
+    text-decoration-color: var(--g1);
+  }
+
+  /* Belgilanganda gradient matn ko'rinmay qolmasin (fon shaffof matnni yopib qo'yardi) */
+  .rt-grad::selection,
+  .rt-grad *::selection {
+    -webkit-text-fill-color: var(--g1);
+    color: var(--g1);
+    background-color: rgb(44 95 216 / 0.22);
+  }
+}
+
+@layer base {
+  u {
+    text-decoration-thickness: 0.07em;
+    text-underline-offset: 0.18em;
+  }
+}
+
+/* ───────────────────────── Animatsiyalar ───────────────────────── */
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.9s var(--ease-out-soft),
+    transform 0.9s var(--ease-out-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+html.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+html.js .shape-tilt[data-reveal].is-visible {
+  transform: rotate(-1.5deg);
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/*
+ * Logotip skrollda: so'z harflari emblema tomon yig'iladi (oxirgisidan boshlab), qayta ochilganda — birinchisidan.
+ * Qanotlar har holat almashganda bir marta «qoqadi», halqa biroz buriladi. Faqat transform/opacity — GPU'da.
+ * data-moved — sahifa skrollangan holda ochilganda qanotlar o'z-o'zidan qoqmasin.
+ */
+.tp-logo .tl-letter {
+  transition:
+    transform 0.46s var(--ease-film),
+    opacity 0.28s linear,
+    fill 0.4s;
+  transition-delay: calc(var(--d) * 22ms);
+  will-change: transform, opacity;
+}
+
+:is(.site-header[data-scrolled='true'], [data-lg-collapsed='true']) .tp-logo .tl-letter {
+  opacity: 0;
+  transform: translateX(calc(var(--unit) * -70));
+}
+
+:is(.site-header[data-scrolled='false'], [data-lg-collapsed='false']) .tp-logo .tl-letter {
+  transition-delay: calc(0.16s + (11 - var(--d)) * 22ms);
+}
+
+:is(.site-header[data-moved][data-scrolled='true'], [data-lg-moved][data-lg-collapsed='true']) .tp-logo .tl-wing {
+  animation: tl-flap-close 0.72s var(--ease-film) calc(var(--w) * 60ms);
+}
+
+:is(.site-header[data-moved][data-scrolled='false'], [data-lg-moved][data-lg-collapsed='false']) .tp-logo .tl-wing {
+  animation: tl-flap-open 0.72s var(--ease-film) calc(var(--w) * 60ms);
+}
+
+:is(.site-header[data-moved][data-scrolled='true'], [data-lg-moved][data-lg-collapsed='true']) .tp-logo .tl-ring {
+  animation: tl-turn-close 0.8s var(--ease-film);
+}
+
+:is(.site-header[data-moved][data-scrolled='false'], [data-lg-moved][data-lg-collapsed='false']) .tp-logo .tl-ring {
+  animation: tl-turn-open 0.8s var(--ease-film);
+}
+
+:is(.site-header[data-moved][data-scrolled='true'], [data-lg-moved][data-lg-collapsed='true']) .tp-logo .tl-head {
+  animation: tl-nod-close 0.7s var(--ease-film) 0.12s;
+}
+
+:is(.site-header[data-moved][data-scrolled='false'], [data-lg-moved][data-lg-collapsed='false']) .tp-logo .tl-head {
+  animation: tl-nod-open 0.7s var(--ease-film) 0.12s;
+}
+
+/*
+ * ArtLogo skrollda (sarlavha data-scrolled) va muharrir ko'rinishida ([data-lg-collapsed]): harflar belgiga yaqinidan
+ * boshlab so'nadi, belgi va PLUS yorlig'i chapga suriladi, bezak (iz) so'nadi. Imzo harakatlari — faqat holat almashganda
+ * (data-moved / data-lg-moved), bir marta; `rotate`/`scale` alohida xususiyatlarda — yig'ilish transform'i bilan to'qnashmaydi.
+ */
+.lg .lg-letter {
+  transition:
+    transform 0.46s var(--ease-film),
+    opacity 0.28s linear;
+  transition-delay: calc(var(--d, 0) * 26ms);
+}
+
+.lg :is(.lg-mark, .lg-badge) {
+  transition:
+    transform 0.5s var(--ease-film),
+    opacity 0.3s linear;
+}
+
+.lg .lg-dash {
+  transition: opacity 0.24s linear;
+  transition-delay: calc((4 - var(--n, 0)) * 45ms);
+}
+
+:is(.site-header[data-scrolled='true'], [data-lg-collapsed='true']) .lg .lg-letter {
+  opacity: 0;
+  transform: translateX(var(--fx, 0px)) scale(0.9);
+}
+
+:is(.site-header[data-scrolled='false'], [data-lg-collapsed='false']) .lg .lg-letter {
+  transition-delay: calc(0.18s + (var(--lg-n) - var(--d, 0)) * 26ms);
+}
+
+:is(.site-header[data-scrolled='true'], [data-lg-collapsed='true']) .lg :is(.lg-mark, .lg-badge) {
+  transform: translate(var(--cx, 0px), var(--cy, 0px)) scale(var(--cs, 1));
+}
+
+/* Rasmiy logotip yig'ilganda faqat PLUS qoladi; tog'li logotipda tog' + PLUS qoladi — qushchali «O» va qolgan chiziqlar so'nadi */
+:is(.site-header[data-scrolled='true'], [data-lg-collapsed='true']) .lg .lg-hide {
+  opacity: 0;
+}
+
+:is(.site-header[data-scrolled='true'], [data-lg-collapsed='true']) .lg .lg-dash {
+  opacity: 0;
+}
+
+:is(.site-header[data-scrolled='false'], [data-lg-collapsed='false']) .lg .lg-dash {
+  transition-delay: calc(0.3s + var(--n, 0) * 70ms);
+}
+
+/* Rasmiy logotip yig'ilganda to'q plashka ham ketadi — PLUS o'zining gradient plashkasi bilan qoladi */
+:is(.site-header[data-scrolled='true'], [data-lg-collapsed='true']) .lg-dark .lg-backdrop {
+  clip-path: inset(0 calc((1 - var(--lg-cw)) * 90.9%) 0 0 round 16px 4px 16px 4px);
+  opacity: 0;
+}
+
+:is(.site-header[data-moved][data-scrolled='true'], [data-lg-moved][data-lg-collapsed='true']) .lg .lg-needle {
+  animation: lg-spin-a 1.15s var(--ease-film);
+}
+
+:is(.site-header[data-moved][data-scrolled='false'], [data-lg-moved][data-lg-collapsed='false']) .lg .lg-needle {
+  animation: lg-spin-b 1.15s var(--ease-film);
+}
+
+:is(.site-header[data-moved][data-scrolled='true'], [data-lg-moved][data-lg-collapsed='true']) .lg .lg-wing {
+  animation: lg-flap-a 0.72s var(--ease-film) calc(var(--w, 0) * 60ms);
+}
+
+:is(.site-header[data-moved][data-scrolled='false'], [data-lg-moved][data-lg-collapsed='false']) .lg .lg-wing {
+  animation: lg-flap-b 0.72s var(--ease-film) calc(var(--w, 0) * 60ms);
+}
+
+:is(.site-header[data-moved][data-scrolled='true'], [data-lg-moved][data-lg-collapsed='true']) .lg .lg-ring {
+  animation: lg-turn-a 0.8s var(--ease-film);
+}
+
+:is(.site-header[data-moved][data-scrolled='false'], [data-lg-moved][data-lg-collapsed='false']) .lg .lg-ring {
+  animation: lg-turn-b 0.8s var(--ease-film);
+}
+
+:is(.site-header[data-moved][data-scrolled='true'], [data-lg-moved][data-lg-collapsed='true']) .lg .lg-head {
+  animation: lg-nod-a 0.7s var(--ease-film) 0.12s;
+}
+
+:is(.site-header[data-moved][data-scrolled='false'], [data-lg-moved][data-lg-collapsed='false']) .lg .lg-head {
+  animation: lg-nod-b 0.7s var(--ease-film) 0.12s;
+}
+
+:is(.site-header[data-moved][data-scrolled='true'], [data-lg-moved][data-lg-collapsed='true']) .lg .lg-tent {
+  animation: lg-pitch-a 0.8s var(--ease-film) 0.1s;
+}
+
+:is(.site-header[data-moved][data-scrolled='false'], [data-lg-moved][data-lg-collapsed='false']) .lg .lg-tent {
+  animation: lg-pitch-b 0.8s var(--ease-film) 0.1s;
+}
+
+:is(.site-header[data-moved][data-scrolled='true'], [data-lg-moved][data-lg-collapsed='true']) .lg :is(.lg-badge, .lg-pill) {
+  animation: lg-pop-a 0.6s var(--ease-film) 0.2s;
+}
+
+:is(.site-header[data-moved][data-scrolled='false'], [data-lg-moved][data-lg-collapsed='false']) .lg :is(.lg-badge, .lg-pill) {
+  animation: lg-pop-b 0.6s var(--ease-film) 0.2s;
+}
+
+@keyframes lg-spin-a {
+  60% {
+    rotate: 380deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}
+
+@keyframes lg-spin-b {
+  60% {
+    rotate: -380deg;
+  }
+  100% {
+    rotate: -360deg;
+  }
+}
+
+@keyframes lg-flap-a {
+  42% {
+    rotate: -10deg;
+    translate: 0 -2%;
+  }
+}
+
+@keyframes lg-flap-b {
+  42% {
+    rotate: -10deg;
+    translate: 0 -2%;
+  }
+}
+
+@keyframes lg-turn-a {
+  45% {
+    rotate: -16deg;
+  }
+}
+
+@keyframes lg-turn-b {
+  45% {
+    rotate: 16deg;
+  }
+}
+
+@keyframes lg-nod-a {
+  40% {
+    translate: 4% -14%;
+    rotate: -8deg;
+  }
+}
+
+@keyframes lg-nod-b {
+  40% {
+    translate: 4% -14%;
+    rotate: -8deg;
+  }
+}
+
+@keyframes lg-pitch-a {
+  45% {
+    scale: 1 0.45;
+  }
+}
+
+@keyframes lg-pitch-b {
+  45% {
+    scale: 1 0.45;
+  }
+}
+
+@keyframes lg-pop-a {
+  50% {
+    scale: 1.08;
+  }
+}
+
+@keyframes lg-pop-b {
+  50% {
+    scale: 1.08;
+  }
+}
+
+@keyframes tl-flap-close {
+  42% {
+    transform: rotate(-10deg) translateY(-2%);
+  }
+}
+
+@keyframes tl-flap-open {
+  42% {
+    transform: rotate(-10deg) translateY(-2%);
+  }
+}
+
+@keyframes tl-turn-close {
+  45% {
+    transform: rotate(-16deg);
+  }
+}
+
+@keyframes tl-turn-open {
+  45% {
+    transform: rotate(16deg);
+  }
+}
+
+@keyframes tl-nod-close {
+  40% {
+    transform: translate(4%, -14%) rotate(-8deg);
+  }
+}
+
+@keyframes tl-nod-open {
+  40% {
+    transform: translate(4%, -14%) rotate(-8deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  html.js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
