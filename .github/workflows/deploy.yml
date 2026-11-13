@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, plus]
+    runs-on: [self-hosted, plus-tasimo]
     steps:
       - name: Pull, build, restart
         run: |
