@@ -25,7 +25,7 @@ jobs:
 
           CURRENT=$(cat .next-slot 2>/dev/null || true)
           if [ "$CURRENT" = ".next-a" ]; then NEXT=.next-b; else NEXT=.next-a; fi
-          echo "Faol slot: ${CURRENT:-yo'q} → build: $NEXT"
+          echo "Faol slot: ${CURRENT:-yoq} -> build: $NEXT"
           NEXT_DIST_DIR=$NEXT bun run build
 
           echo "$NEXT" > .next-slot
