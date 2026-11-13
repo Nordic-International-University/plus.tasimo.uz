@@ -1,4 +1,5 @@
 import type { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
+import { ATTRIBUTION_COOKIE } from './doc/ref';
 
 /**
  * Trafik manbalari kuzatuvi — tasimo.uz/src/lib/attribution.ts bilan bir xil, faqat platform = 'PLUS'.
@@ -13,8 +14,9 @@ import type { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
  * - `tasimo_ses` — joriy sessiya (30 daqiqa, har so'rovda yangilanadi);
  * - `tasimo_attr` — manbali birinchi kontakt (30 kun). Faqat reklama belgisi bo'lgan kontakt reklamasizning ustiga yoziladi;
  * - `tasimo_plus` — landingda bo'lgan brauzer belgisi (90 kun, pastda).
+ * `tasimo_attr` brauzerda ham o'qiladi: ClientEnhancer tugma havolalariga tashrifchining o'z reklama belgisini qo'yadi.
  */
-export const ATTRIBUTION_COOKIE = 'tasimo_attr';
+export { ATTRIBUTION_COOKIE };
 export const VISITOR_COOKIE = 'tasimo_vid';
 export const SESSION_COOKIE = 'tasimo_ses';
 /** Landingning o'z sessiyasi (faqat shu host) — tasimo.uz sessiyasi davom etayotgan bo'lsa ham PLUS tashrifi yozilsin */

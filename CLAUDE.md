@@ -47,7 +47,12 @@ Next.js 16.4 (App Router, `proxy.ts`), React 19, Tailwind 4, bun. Port: dev **30
    Saytda havola faqat `ctx.link(href, …)` orqali chiziladi (`lib/doc/links.ts` → resolveLink). Account manzilini menyu
    yoki footer'ga qo'lda yozmang — «Tugma» turini tanlang.
    Account'ga ketadigan havolaga render paytida `utm_source=tasimo_plus&utm_medium=landing&utm_content=<tugma>`
-   qo'shiladi (`src/lib/doc/ref.ts`). Bosish → `/api/t` → `plus_cta_events` + piksellarda Lead hodisasi.
+   qo'shiladi (`src/lib/doc/ref.ts`). Sahifa statik, lekin bir vaqtda bir nechta reklama ishlaydi: `ClientEnhancer`
+   reklamadan kelgan tashrifchining `a[data-cta]` havolalaridagi utm_* ni uning o'z belgisi bilan almashtiradi
+   (`visitorTouch` — `tasimo_attr` cookie, bo'lmasa URL; `withVisitorRef`) — cookie bo'lishmasa ham (Instagram ichidan
+   «Brauzerda ochish») account ro'yxatdan o'tishni o'sha reklamaga yozadi. Reklama havolasi — dashboard'dagi reklama
+   sahifasidan (`utm_campaign` = reklama slug'i); yalang domen ham bo'ladi: `plus.tasimo.uz/?utm_…` til sahifasiga utm
+   bilan o'tadi. Bosish → `/api/t` → `plus_cta_events` + piksellarda Lead hodisasi.
 8. **Piksellar** (Meta, TikTok, GA4/Google Ads) faqat dashboard'da ID kiritilgan bo'lsa, `lazyOnload` bilan.
    CSP (`next.config.ts`) faqat shu domenlarga ruxsat beradi — yangi uchinchi tomon skripti qo'shsangiz CSP'ni ham.
    `frame-src` da `'self'` shart — muharrirdagi desktop/planshet/mobil ko'rinish `/edit/preview` ni iframe'da ochadi.

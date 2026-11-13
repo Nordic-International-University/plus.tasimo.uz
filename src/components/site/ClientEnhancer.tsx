@@ -1,7 +1,18 @@
 'use client';
 
 import { useEffect } from 'react';
+import { ATTRIBUTION_COOKIE, visitorTouch, withVisitorRef } from '@/lib/doc/ref';
 import type { Locale, PixelSettings } from '@/lib/doc/types';
+
+function readCookie(name: string): string | null {
+  const part = document.cookie.split('; ').find((item) => item.startsWith(`${name}=`));
+  if (!part) return null;
+  try {
+    return decodeURIComponent(part.slice(name.length + 1));
+  } catch {
+    return null;
+  }
+}
 
 type Gtag = (...args: unknown[]) => void;
 declare global {
@@ -15,12 +26,24 @@ declare global {
 const BUTTONS = new Set(['register', 'participate', 'login']);
 
 /**
- * Saytdagi yagona client «orol» (~2 KB): ko'rinishga kelganda paydo bo'lish, raqamlarni sanash, sarlavha foni
- * va tugma bosishlarini kuzatish (plus.tasimo.uz/api/t → backend + reklama piksellari).
+ * Saytdagi yagona client «orol» (~2 KB): ko'rinishga kelganda paydo bo'lish, raqamlarni sanash, sarlavha foni,
+ * tugma havolalariga tashrifchining reklama belgisi va tugma bosishlarini kuzatish (plus.tasimo.uz/api/t → backend +
+ * reklama piksellari).
  */
 export function ClientEnhancer({ locale, pixels }: { locale: Locale; pixels: PixelSettings }) {
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Sahifa hamma uchun bir xil (statik) — account tugmalarida standart `utm_source=tasimo_plus`. Reklamadan kelgan
+    // tashrifchining havolasiga uning o'z utm_* belgisi qo'yiladi: bir vaqtda bir nechta reklama ishlasa ham har kim
+    // o'zinikini olib ketadi va ro'yxatdan o'tishi o'sha reklamaga yoziladi (cookie bo'lishmasa ham — URL orqali)
+    const touch = visitorTouch(readCookie(ATTRIBUTION_COOKIE), window.location.search);
+    if (touch) {
+      document.querySelectorAll<HTMLAnchorElement>('a[data-cta]').forEach((link) => {
+        const next = withVisitorRef(link.href, touch);
+        if (next !== link.href) link.href = next;
+      });
+    }
 
     // Paydo bo'lish + sanash
     const countUp = (el: HTMLElement) => {
