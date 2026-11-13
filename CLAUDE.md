@@ -86,7 +86,9 @@ Next.js 16.4 (App Router, `proxy.ts`), React 19, Tailwind 4, bun. Port: dev **30
     iboralarni tekshiradi.
 14. Matnda `\uXXXX` escape yozmang — belgining o'zini yozing (NBSP — `String.fromCharCode(160)`).
 15. `next dev` AGENTS.md yaratadi — `agentRules: false` turibdi; paydo bo'lsa o'chiring (gitignore'da).
-16. **Deploy** — `main` ga push → `.github/workflows/deploy.yml` (self-hosted runner, label `plus`). Build navbatdagi slotga
+16. **Mijoz IP'si yo'q** (bitta oq IP, oldida Kerio Control NAT): `x-forwarded-for`/`x-real-ip` — Kerio manzili. IP'ni
+    cheklov, statistika yoki backend'ga uzatish uchun ishlatmang; cheklov — tashrifchi ID (cookie) yoki umumiy kalit bilan.
+17. **Deploy** — `main` ga push → `.github/workflows/deploy.yml` (self-hosted runner, label `plus-tasimo`). Build navbatdagi slotga
     (`NEXT_DIST_DIR=.next-a|.next-b`, faol slot `.next-slot` da, `ecosystem.config.js` o'qiydi) — sayt build paytida
     to'xtamaydi, javob bermasa eski slotga qaytadi. `tsconfig.json` dagi `.next-a`/`.next-b` yo'llarini o'chirmang (Next
     tsconfig'ni qayta yozadi → serverda `git pull` to'xtaydi). nginx — repo'dagi `nginx.conf` (faqat HTTP, HTTPS — Kerio).

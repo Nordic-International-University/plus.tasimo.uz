@@ -9,8 +9,8 @@ const BUTTONS = new Set(['register', 'participate', 'login', 'other']);
 const BOT_UA = /bot|crawl|spider|slurp|preview|facebookexternalhit/i;
 
 /**
- * Tugma bosildi (brauzer → shu yo'l → backend). Tashrifchi ID va reklama — `.tasimo.uz` cookie'laridan,
- * haqiqiy IP — x-visitor-ip. Javob har doim 204 (kuzatuv foydalanuvchini kuttirmaydi).
+ * Tugma bosildi (brauzer → shu yo'l → backend). Tashrifchi ID va reklama — `.tasimo.uz` cookie'laridan. Mijoz IP'si
+ * yo'q (Kerio NAT) — backend tashrifchi ID bo'yicha cheklaydi. Javob har doim 204 (kuzatuv foydalanuvchini kuttirmaydi).
  */
 export async function POST(request: NextRequest) {
   const done = new NextResponse(null, { status: 204 });
@@ -32,13 +32,12 @@ export async function POST(request: NextRequest) {
     utmCampaign = undefined;
   }
 
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || request.headers.get('x-real-ip') || '';
   const country = request.headers.get('cf-ipcountry') ?? '';
   const userAgent = request.headers.get('user-agent') ?? '';
   try {
     await fetch(`${API_URL}/plus/track/cta`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...(ip ? { 'x-visitor-ip': ip } : {}) },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         visitorId,
         button,

@@ -10,11 +10,10 @@ export async function POST(request: NextRequest) {
   const password = typeof body?.password === 'string' ? body.password.slice(0, 200) : '';
   if (!password) return NextResponse.json({ message: 'Parolni kiriting.' }, { status: 400 });
 
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || request.headers.get('x-real-ip') || '';
+  // Mijoz IP'si uzatilmaydi: server oldida Kerio NAT — hamma bitta IP; urinishlarni backend umumiy sanaydi
   const result = await editorApi<{ token: string; expiresIn: number }>('/plus/editor/login', null, {
     method: 'POST',
     body: JSON.stringify({ password }),
-    headers: ip ? { 'x-visitor-ip': ip } : undefined,
   });
   if (!result.ok || !result.data || !('token' in result.data)) {
     return NextResponse.json(result.data ?? { message: 'Kirib bo‘lmadi.' }, { status: result.status || 500 });

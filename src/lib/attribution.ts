@@ -151,13 +151,13 @@ export function captureAttribution(request: NextRequest, response: NextResponse,
   const apiUrl = process.env.API_URL?.trim().replace(/\/+$/, '');
   if (!apiUrl) return;
 
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || request.headers.get('x-real-ip') || '';
+  // Mijoz IP'si uzatilmaydi (Kerio NAT — hamma bitta IP); backend spamni tashrifchi ID bo'yicha cheklaydi
   const country = request.headers.get('cf-ipcountry') ?? '';
   const optional = (key: string, value: string) => (value ? { [key]: value } : {});
   event.waitUntil(
     fetch(`${apiUrl}/marketing-campaigns/track/visit`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...(ip ? { 'x-visitor-ip': ip } : {}) },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         platform: 'PLUS',
         visitorId,

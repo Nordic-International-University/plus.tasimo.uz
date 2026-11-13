@@ -34,11 +34,11 @@ build → PM2 restart. Papka nomi = domen: `/var/www/tasimo-main/plus.tasimo.uz`
    REVALIDATE_SECRET=<API'dagi PLUS_REVALIDATE_SECRET yoki REVALIDATE_SECRET bilan AYNAN bir xil>
    ```
    `ecosystem.config.js` da faqat NODE_ENV, PORT va NEXT_DIST_DIR — u yerga sir yozmang (bo'sh qiymat `.env` ni bekitadi).
-4. **GitHub runner** — repo → Settings → Actions → Runners → New self-hosted runner (Linux). Sozlashda label **`plus`**
-   bering (workflow `runs-on: [self-hosted, plus]`):
+4. **GitHub runner** — repo → Settings → Actions → Runners → New self-hosted runner (Linux). Sozlashda label
+   **`plus-tasimo`** bering (workflow `runs-on: [self-hosted, plus-tasimo]`):
    ```bash
    ./config.sh --url https://github.com/Nordic-International-University/plus.tasimo.uz --token <TOKEN> \
-     --name plus-tasimo --labels plus --unattended
+     --name plus-tasimo --labels plus-tasimo --unattended
    sudo ./svc.sh install <olympiads runner ishlayotgan foydalanuvchi> && sudo ./svc.sh start
    ```
    Runner olympiads runner'i bilan bir foydalanuvchida ishlasin: `bun`, `pm2`, `git` shu foydalanuvchining PATH'ida va
@@ -51,8 +51,10 @@ build → PM2 restart. Papka nomi = domen: `/var/www/tasimo-main/plus.tasimo.uz`
    sudo ln -sf /etc/nginx/sites-available/plus.tasimo.uz /etc/nginx/sites-enabled/plus.tasimo.uz
    sudo nginx -t && sudo systemctl reload nginx
    ```
-   Klient IP: global `nginx.conf` da Kerio uchun `set_real_ip_from` bo'lmasa, fayldagi izohdagi uch qatorni yoqing
-   (faqat Kerio manzili). Aks holda tugma kuzatuvi va muharrir kirishidagi IP cheklovi hammani bitta IP deb ko'radi.
+   **Mijoz IP'si yo'q:** server bitta oq IP orqali, oldida Kerio Control (NAT) — nginx va sayt hamma so'rovni Kerio
+   manzilidan ko'radi. Shuning uchun sayt IP'ni hech qayerda ishlatmaydi: tugma va tashrif kuzatuvi tashrifchi ID (cookie)
+   bo'yicha cheklanadi, muharrir paroliga noto'g'ri urinishlar umumiy sanaladi (backend: 15 daqiqada 20 ta, nginx:
+   daqiqasiga 10 so'rov). Bu faylga IP bo'yicha `limit_req`/`limit_conn` qo'shmang — u butun saytni bitta odamdek cheklaydi.
 7. **Tekshirish:**
    - `curl -I http://127.0.0.1:3101/en` (serverda) → 200
    - `https://plus.tasimo.uz/` → brauzer tiliga qarab `/en` yoki `/ru`
