@@ -13,3 +13,7 @@ function required(name: string): string {
 export const API_URL = required('API_URL');
 export const SITE_URL = (process.env.SITE_URL?.trim() || 'https://plus.tasimo.uz').replace(/\/+$/, '');
 export const ACCOUNT_URL = (process.env.ACCOUNT_URL?.trim() || 'https://account.tasimo.uz').replace(/\/+$/, '');
+
+/** Google Search Console / Yandex Webmaster «HTML teg» usuli: faqat content qiymati (ixtiyoriy; .env + qayta build) */
+export const GOOGLE_SITE_VERIFICATION = process.env.GOOGLE_SITE_VERIFICATION?.trim() || '';
+export const YANDEX_VERIFICATION = process.env.YANDEX_VERIFICATION?.trim() || '';

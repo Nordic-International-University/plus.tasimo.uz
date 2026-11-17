@@ -17,7 +17,11 @@ export default function proxy(request: NextRequest, event: NextFetchEvent) {
   if (pathname === '/') {
     const url = request.nextUrl.clone();
     url.pathname = `/${preferredLocale(request)}`;
-    return NextResponse.redirect(url, 307);
+    const redirect = NextResponse.redirect(url, 307);
+    // Javob brauzer tiliga bog'liq — oraliq keshlar bitta tilni hammaga bermasin (Google ham shuni kutadi)
+    redirect.headers.set('Vary', 'Accept-Language');
+    redirect.headers.set('Cache-Control', 'private, no-store');
+    return redirect;
   }
 
   const response = NextResponse.next();

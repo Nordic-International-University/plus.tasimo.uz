@@ -22,14 +22,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function LandingPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const { doc, pixels } = await getLanding();
+  const { doc, pixels, publishedAt } = await getLanding();
   const ctx = createViewCtx(doc, locale);
 
   return (
     <>
-      {buildJsonLd(doc, locale, SITE_URL).map((data, i) => (
-        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(data) }} />
-      ))}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(buildJsonLd(doc, locale, SITE_URL, publishedAt)) }}
+      />
       <LandingView ctx={ctx} />
       <ClientEnhancer locale={locale} pixels={pixels} />
       <Pixels pixels={pixels} />

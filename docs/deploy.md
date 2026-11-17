@@ -77,6 +77,27 @@ build → PM2 restart. Papka nomi = domen: `/var/www/tasimo-main/plus.tasimo.uz`
 - `tsconfig.json` da `.next-a` / `.next-b` yo'llari oldindan yozilgan — aks holda Next build faylni qayta yozadi va
   keyingi `git pull` to'xtab qoladi. Yangi slot nomi qo'shsangiz, tsconfig'ga ham qo'shing.
 
+## Google Search Console va Yandex Webmaster
+
+Kod tomoni tayyor: brendli sarlavha (admin yozgan sarlavhada «TASIMO Plus» bo'lmasa oxiriga qo'shiladi), canonical,
+hreflang en/ru/x-default, bog'langan JSON-LD (Organization TASIMO ← WebSite «TASIMO Plus» ← WebPage + FAQ), sitemap
+(`lastmod` = oxirgi e'lon), robots.txt, `/favicon.ico` va 512 px logo.
+
+1. **Tasdiqlash** — ikki yo'ldan biri:
+   - **Domen** (tavsiya): GSC → Add property → *Domain* → `tasimo.uz` → DNS'ga TXT yozuv. Barcha subdomenlarni qamraydi;
+     `tasimo.uz` domeni GSC'da allaqachon tasdiqlangan bo'lsa, plus ham shu yerda — hech narsa qilish shart emas.
+   - **URL prefiksi**: *URL prefix* → `https://plus.tasimo.uz/` → *HTML tag* → `content="…"` qiymatini serverdagi `.env` ga
+     `GOOGLE_SITE_VERIFICATION=…` qilib yozing → Actions → «Deploy plus.tasimo.uz» → **Run workflow** (meta-teg build
+     paytida qo'shiladi) → GSC'da **Verify**. Yandex Webmaster uchun xuddi shunday `YANDEX_VERIFICATION=…`.
+2. **Sitemaps** → `https://plus.tasimo.uz/sitemap.xml` → Submit.
+3. **URL Inspection** → `https://plus.tasimo.uz/en` va `/ru` → *Request indexing*.
+4. Tekshirish: [Rich Results Test](https://search.google.com/test/rich-results) (`/en` — FAQ va sayt nomi xatosiz),
+   bir necha kundan keyin Google'da `TASIMO Plus` va `site:plus.tasimo.uz`.
+5. Indekslashni tezlatadi: tasimo.uz saytidan (menyu yoki footer), Instagram/Telegram profilidan `plus.tasimo.uz` ga havola.
+
+Server tomonidagi talab: `http://plus.tasimo.uz` hozir 403 qaytaradi — Kerio'da 80-portdan `https://` ga 301 yo'naltirish
+qo'ying (havolalar http bilan tarqalsa Google 403 ni «sahifa yo'q» deb oladi).
+
 ## Ishga tushgandan keyin (dashboard)
 
 1. **TASIMO Plus → Landing sozlamalari:** muharrir parolini o'rnating (kamida 8 belgi).

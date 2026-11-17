@@ -1,12 +1,29 @@
 import type { Metadata, Viewport } from 'next';
 import '../../globals.css';
 import { isLocale, LOCALES } from '@/lib/doc/types';
-import { SITE_URL } from '@/lib/env.server';
+import { GOOGLE_SITE_VERIFICATION, SITE_URL, YANDEX_VERIFICATION } from '@/lib/env.server';
 import { brand } from '@/lib/fonts';
+import { BRAND } from '@/lib/seo';
 import { ui } from '@/lib/ui-strings';
 
-/** Sahifa metadata'si page.tsx da; bu yerda — OG rasm va 404 havolalari to'g'ri domenga bog'lansin */
-export const metadata: Metadata = { metadataBase: new URL(SITE_URL) };
+/**
+ * Sahifa metadata'si page.tsx da; bu yerda — butun sayt uchun: OG rasm va 404 havolalari to'g'ri domenga bog'lansin,
+ * ilova nomi, Search Console / Yandex Webmaster tasdiqlash meta-tegi (env bo'lsa).
+ */
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  applicationName: BRAND,
+  publisher: 'TASIMO',
+  formatDetection: { telephone: false, email: false, address: false },
+  ...(GOOGLE_SITE_VERIFICATION || YANDEX_VERIFICATION
+    ? {
+        verification: {
+          ...(GOOGLE_SITE_VERIFICATION ? { google: GOOGLE_SITE_VERIFICATION } : {}),
+          ...(YANDEX_VERIFICATION ? { yandex: YANDEX_VERIFICATION } : {}),
+        },
+      }
+    : {}),
+};
 
 export const viewport: Viewport = {
   themeColor: '#ffffff',

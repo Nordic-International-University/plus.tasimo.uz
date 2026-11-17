@@ -56,8 +56,14 @@ Next.js 16.4 (App Router, `proxy.ts`), React 19, Tailwind 4, bun. Port: dev **30
 8. **Piksellar** (Meta, TikTok, GA4/Google Ads) faqat dashboard'da ID kiritilgan bo'lsa, `lazyOnload` bilan.
    CSP (`next.config.ts`) faqat shu domenlarga ruxsat beradi — yangi uchinchi tomon skripti qo'shsangiz CSP'ni ham.
    `frame-src` da `'self'` shart — muharrirdagi desktop/planshet/mobil ko'rinish `/edit/preview` ni iframe'da ochadi.
-9. **SEO:** `buildMetadata` (canonical, hreflang en/ru/x-default, OG), JSON-LD (Organization, WebSite, FAQPage),
-   sitemap, robots. OG rasm berilmasa — `opengraph-image.tsx` (qo'lda yo'l yozmang: Next xeshli havola beradi).
+9. **SEO** (`src/lib/seo.ts`) — kontentga tegmaydi, chiqishini mustahkamlaydi: sarlavhada «TASIMO Plus» shart
+   (`seoTitle`: admin sarlavhasida bo'lmasa ` — TASIMO Plus` qo'shiladi, bo'sh bo'lsa brend + dekriptor), bo'sh tavsifga
+   zaxira (`seoDescription`); canonical, hreflang en/ru/x-default(/en), OG; JSON-LD — bitta `@graph`: Organization
+   (`https://tasimo.uz/#organization`, logo `/icon-512.png`) ← WebSite (`url` = subdomen ildizi `/`, nomi «TASIMO Plus»
+   + alternateName — Google'dagi sayt nomi) ← WebPage (+ FAQPage, `dateModified` = e'lon sanasi). Sitemap `lastmod` —
+   `publishedAt`. Tasdiqlash meta-tegi — `.env` `GOOGLE_SITE_VERIFICATION` / `YANDEX_VERIFICATION` (build paytida).
+   Ikonkalar: `node scripts/gen-icons.mjs` (`icon.svg` → `favicon.ico`, `icon-192/512.png`). OG rasm berilmasa —
+   `opengraph-image.tsx` (qo'lda yo'l yozmang: Next xeshli havola beradi). Tekshiruv — `tests/seo.test.ts`.
 10. **Dizayn — Brand Guidelines bo'yicha, sokin:** ranglar faqat PLUS BLUE `#0A62B3`, PLUS LIGHT `#CEE4F8`, matn/neytral
     `#122C46`, oq (`--color-plus`, `--color-plus-light`, `--color-navy`; och fonlar — PLUS LIGHT ning oq bilan aralashmasi).
     Shrift — Finlandica Text (`next/font`, variable): sarlavha 800/700, matn 400, ma'lumot 500; oddiy matnda tracking 0,
